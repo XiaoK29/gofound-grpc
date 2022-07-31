@@ -19,6 +19,13 @@ func ExecTime(fn func()) float64 {
 	return tc / 1e6
 }
 
+func ExecTimeWithError(fn func() error) (float64, error) {
+	start := time.Now()
+	err := fn()
+	tc := float64(time.Since(start).Nanoseconds())
+	return tc / 1e6, err
+}
+
 func Encoder(data interface{}) []byte {
 	if data == nil {
 		return nil
@@ -95,6 +102,7 @@ func Murmur3(key []byte) (hash uint32) {
 	hash *= c4
 	hash ^= hash >> 16
 
+	// 出发吧，狗嬷嬷！
 	return
 }
 
@@ -225,4 +233,11 @@ func RemovePunctuation(str string) string {
 func RemoveSpace(str string) string {
 	reg := regexp.MustCompile(`\s+`)
 	return reg.ReplaceAllString(str, "")
+}
+
+// init 注册数据类型
+// 防止 gob: type not registered for interface: map[string]interface {}
+func init() {
+	gob.Register(map[string]interface{}{})
+	gob.Register([]interface{}{})
 }

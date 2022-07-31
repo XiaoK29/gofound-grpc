@@ -30,8 +30,10 @@ type HTTP struct {
 
 // Databases 数据库配置
 type Databases struct {
-	Shard int32  `mapstructure:"shard" yaml:"shard"` // 分片数量
-	Path  string `mapstructure:"path" yaml:"path"`   // 数据目录
+	Shard   int32  `mapstructure:"shard" yaml:"shard"`     // 分片数量
+	Path    string `mapstructure:"path" yaml:"path"`       // 数据目录
+	Timeout int64  `mapstructure:"timeout" yaml:"timeout"` // 超时时间
+	Debug   bool   `mapstructure:"debug" yaml:"debug"`     // 是否开启debug
 }
 
 // Dictionary 词典配置

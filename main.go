@@ -30,14 +30,16 @@ func main() {
 		log.Fatal("cannot listen:", err)
 	}
 
-	var opts []grpc.ServerOption
-	var in []grpc.UnaryServerInterceptor
+	in := make([]grpc.UnaryServerInterceptor, 0, 3)
 	in = append(in, interceptor.GrpcRecover(), interceptor.Validator())
 	if global.CONFIG.Auth.EnableAdmin {
 		in = append(in, interceptor.VerifyAuth())
 	}
 
-	opts = append(opts, grpc.UnaryInterceptor(middleware.ChainUnaryServer(in...)))
+	opts := []grpc.ServerOption{
+		grpc.UnaryInterceptor(middleware.ChainUnaryServer(in...)),
+	}
+
 	s := grpc.NewServer(opts...)
 	gofoundpb.RegisterGofoundServiceServer(s, service.NewGofoundService())
 	log.Println("server started addr", global.CONFIG.GRPC.Addr)

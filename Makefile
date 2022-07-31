@@ -38,11 +38,11 @@ gateway:
 
 
 .PHONY: build
-build:	
-	docker stop gofound
-	docker rm gofound
-	docker rmi gofound:v1
-	docker build -t gofound:v1 -f ./Dockerfile .
+build:
+	# docker stop gofound
+	# docker rm gofound
+	# docker rmi gofound:v1
+	docker build -t gofound:v1 -f deployment/Dockerfile .
 	docker run --name gofound -p 4567:4567 -p 5678:5678 -d gofound:v1
 
 .PHONY: all

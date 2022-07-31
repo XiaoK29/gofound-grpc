@@ -18,6 +18,8 @@ http:
 databases:
    shard: 10 # 分片数量
    path: './data' # 数据目录
+   timeout: 600 # 数据库关闭超时时间
+   debug: true # 是否开启debug
 
 # 词典配置
 dictionary:
